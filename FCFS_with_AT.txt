@@ -2,7 +2,7 @@
 
 void   main(){
 
-	int bt[10]={0},at[10]={0},tat[10]={0},wt[10]={0},ct[10]={0},process_no[10];
+	int bt[10]={0},at[10]={0},tat[10]={0},wt[10]={0},ct[10]={0},process_no[10],tempBT[10]={0};
 	int n,sum=0,temp;
 	float totalTAT=0,totalWT=0;
 
@@ -20,6 +20,7 @@ void   main(){
 
 		printf("Burst time of process[%d]	",i+1);
 		scanf("%d",&bt[i]);
+		tempBT[i]=bt[i];
 
 		printf("\n");
 	}
@@ -37,6 +38,10 @@ void   main(){
                 bt[j]=bt[j+1];
                 bt[j+1]=temp;
 
+                temp=tempBT[j];
+                tempBT[j]=tempBT[j+1];
+                tempBT[j+1]=temp;
+
                 temp=process_no[j];
                 process_no[j]=process_no[j+1];
                 process_no[j+1]=temp;
@@ -45,11 +50,22 @@ void   main(){
 	}
 
 	//calculate completion time of processes
-
-	for(int j=0;j<n;j++)
-	{
-		sum+=bt[j];
-		ct[j]+=sum;
+	int count=0;
+	while(count<n){
+        for(int j=0;j<n;j++)
+        {
+            x:
+            if(at[j]<=sum && tempBT[j]>0){	//if the process has arrived in RQ
+            sum+=bt[j];
+            ct[j]+=sum;
+            count++;
+            tempBT[j]=0;
+            }
+            else{
+                sum++;			//if the process has not arrived in RQ, increments sum (time) and goes back to label 'x'
+                goto x;
+            }
+        }
 	}
 
 	//calculate turnaround time and waiting times
