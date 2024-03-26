@@ -24,8 +24,6 @@ void main() {
         printf("\n");
     }
 
-    printf("Processes entered successfully\n");
-
     int flag = 0;
     int current_time = 0;
     while (1) {
