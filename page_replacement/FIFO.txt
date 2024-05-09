@@ -1,43 +1,56 @@
-#include<stdio.h>
-#include<stdbool.h>
+#include <stdio.h>
+#include <stdbool.h>
 
-void main(){
+bool isInMemory(int page, int memory[], int n) {
+    for (int i = 0; i < n; i++) {
+        if (memory[i] == page) {
+            return true;
+        }
+    }
+    return false;
+}
 
-    int n,maxFrames,fault=0,index=0;
-    bool flag;
+void displayMemory(int memory[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", memory[i]);
+    }
+    printf("\n");
+}
 
-    printf("enter the number of pages : ");
-    scanf("%d",&n);
+int main() {
+    int n;
+    printf("Enter number of pages: ");
+    scanf("%d", &n);
 
     int pages[n];
-    printf("Enter the pages : \n");
-    for(int i=0;i<n;i++)
-        scanf("%d",&pages[i]);
-
-    printf("Enter the number of frames : ");
-    scanf("%d",&maxFrames);
-
-    int frames[maxFrames];
-    for(int i=0;i<maxFrames;i++)
-        frames[i]=-1;
-
-    for(int i=0;i<n;i++){
-        flag=false;
-        printf("Page %d, Memory : ",pages[i]);
-        for(int j=0;j<maxFrames;j++){
-            if(frames[j]==pages[i]){
-                flag=true;
-            }
-        }
-        if(!flag){
-            fault++;
-            frames[index]=pages[i];
-            index=(index+1)%maxFrames;
-        }
-        for(int j=0;j<maxFrames;j++){
-            printf("%d ",frames[j]);
-        }
-        printf("\n");
+    printf("Enter the pages: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &pages[i]);
     }
-    printf("Faults : %d",fault);
+
+    int maxFrames;
+    printf("Enter number of frames: ");
+    scanf("%d", &maxFrames);
+
+    int memory[maxFrames];
+    int faults = 0;
+    int frameIndex = 0;
+
+    for (int i = 0; i < maxFrames; i++) {
+        memory[i] = -1;
+    }
+
+    for (int i = 0; i < n; i++) {
+        printf("Page: %d, Memory: ", pages[i]);
+        if (!isInMemory(pages[i], memory, maxFrames)) {
+            faults++;
+            memory[frameIndex] = pages[i];
+            frameIndex = (frameIndex + 1) % maxFrames;
+        }
+        displayMemory(memory, maxFrames);
+    }
+
+    printf("Total Page Faults: %d\n", faults);
+
+    return 0;
 }
