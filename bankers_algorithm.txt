@@ -2,8 +2,7 @@
 
 void main()
 {
-    int n, m, i, j, k, alloc[10][10],max[10][10],avail[10];
-    int need[n][m];
+    int n, m, i, j, k, alloc[10][10],max[10][10],need[10][10],avail[10];
 
     printf("Enter the number of processes: ");
     scanf("%d", &n);
