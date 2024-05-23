@@ -63,9 +63,13 @@ int main() {
         printf("Page: %d, Memory: ", pages[i]);
         if (!isInMemory(pages[i], memory, maxFrames)) {
             faults++;
+            if (maxFrames>i)
+                 memory[i] = pages[i];
+            else {
             int pos = findOptimal(pages, memory, n, maxFrames, i + 1);
             memory[pos] = pages[i];
         }
+     } 
         displayMemory(memory, maxFrames);
     }
 
